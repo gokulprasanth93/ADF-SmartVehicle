@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "Dev-Azure-Factory001"
+		},
+		"ls_Adls_CovidReportingDL_accountKey": {
+			"value": ""
+		},
+		"ls_ablob_CovidReportingSA_connectionString": {
+			"value": ""
+		},
+		"ls_sql_sink_connectionString": {
+			"value": ""
+		},
+		"ls_Adls_CovidReportingDL_properties_typeProperties_url": {
+			"value": "https://storecovidadls.dfs.core.windows.net/"
+		},
+		"ls_http_opendata_ecdc_europa_eu_properties_typeProperties_url": {
+			"value": "@{linkedService().BaseURL}"
+		},
+		"tr_event_trigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/b075e2bf-4daa-474a-b220-636487adb9ce/resourceGroups/Dev-Azure005/providers/Microsoft.Storage/storageAccounts/blobstorecovid001"
+		}
+	}
+}
