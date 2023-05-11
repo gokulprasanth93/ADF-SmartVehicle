@@ -1,0 +1,24 @@
+{
+	"name": "ds_processed_hspl_adm_weekly",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_Adls_CovidReportingDL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "ecdc-data/hospital_adm_weekly",
+				"fileSystem": "proccessed-data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,12 @@
+{
+	"name": "ls_sql_sink",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=dev-srv-db.database.windows.net;initial catalog=covid-DB;user id=adm",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEJENUZBNkRDLTFBRTgtNDczNC1BRTJDLTVBNENFMjI0MEE0MV9mZDI4ODBmMy0zM2EzLTRiN2UtYmFjMi1kMTE0MjY4OWM3NDQiDQp9"
+		}
+	}
+}

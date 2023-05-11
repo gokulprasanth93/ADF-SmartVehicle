@@ -1,0 +1,17 @@
+{
+	"name": "ds_staging_sql_vehicle",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_sink",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "vehicle"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,17 @@
+{
+	"name": "tr_event_trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/population/blobs/population_by_age.tsv.gz",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/b075e2bf-4daa-474a-b220-636487adb9ce/resourceGroups/Dev-Azure005/providers/Microsoft.Storage/storageAccounts/blobstorecovid001",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

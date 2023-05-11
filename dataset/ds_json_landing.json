@@ -1,0 +1,50 @@
+{
+	"name": "ds_json_landing",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_Adls_CovidReportingDL",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FileNameOutput": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@dataset().FileNameOutput",
+					"type": "Expression"
+				},
+				"fileSystem": "project-vehicle-input"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"VehicleID": {
+					"type": "string"
+				},
+				"latitiude": {
+					"type": "number"
+				},
+				"longitude": {
+					"type": "number"
+				},
+				"City": {
+					"type": "string"
+				},
+				"temeprature": {
+					"type": "integer"
+				},
+				"speed": {
+					"type": "integer"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

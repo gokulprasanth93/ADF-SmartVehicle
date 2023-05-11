@@ -1,0 +1,133 @@
+{
+	"name": "df_cases_death",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_ecdc_cases_death_asld",
+						"type": "DatasetReference"
+					},
+					"name": "SourceCasesDeath"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_Country_lookup",
+						"type": "DatasetReference"
+					},
+					"name": "SourceLookup"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_sink_cases_deaths_adls",
+						"type": "DatasetReference"
+					},
+					"name": "sinkProcessed"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FilterOnlyEurope"
+				},
+				{
+					"name": "SelectingReqColumns"
+				},
+				{
+					"name": "PivotColumns"
+				},
+				{
+					"name": "LookUpToFile"
+				},
+				{
+					"name": "SelectingForSink"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          country as string,",
+				"          country_code as string,",
+				"          continent as string,",
+				"          population as integer,",
+				"          indicator as string,",
+				"          daily_count as short,",
+				"          date as date,",
+				"          rate_14_day as double,",
+				"          source as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     limit: 2000,",
+				"     ignoreNoFilesFound: false) ~> SourceCasesDeath",
+				"source(output(",
+				"          country as string,",
+				"          country_code_2_digit as string,",
+				"          country_code_3_digit as string,",
+				"          continent as string,",
+				"          population as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SourceLookup",
+				"SourceCasesDeath filter(continent ==\"Europe\" && not(isNull(country_code))) ~> FilterOnlyEurope",
+				"FilterOnlyEurope select(mapColumn(",
+				"          country,",
+				"          country_code,",
+				"          population,",
+				"          indicator,",
+				"          daily_count,",
+				"          source,",
+				"          each(match(name==\"date\"),",
+				"               \"reported\"+\"_date\" = $$)",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> SelectingReqColumns",
+				"SelectingReqColumns pivot(groupBy(country,",
+				"          country_code,",
+				"          population,",
+				"          source,",
+				"          reported_date),",
+				"     pivotBy(indicator, ['confirmed cases', 'deaths']),",
+				"     { count} = sum(daily_count),",
+				"     columnNaming: '$V_$N',",
+				"     lateral: true) ~> PivotColumns",
+				"PivotColumns, SourceLookup lookup(PivotColumns@country == SourceLookup@country,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> LookUpToFile",
+				"LookUpToFile select(mapColumn(",
+				"          country = PivotColumns@country,",
+				"          country_code_2_digit,",
+				"          country_code_3_digit,",
+				"          population = PivotColumns@population,",
+				"          {confirmed cases_ count},",
+				"          {deaths_ count},",
+				"          reported_date,",
+				"          source",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectingForSink",
+				"SelectingForSink sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Column_1 as string,",
+				"          Column_2 as string,",
+				"          Column_3 as string,",
+				"          Column_4 as string,",
+				"          Column_5 as string,",
+				"          Column_6 as string,",
+				"          Column_7 as string,",
+				"          Column_8 as string",
+				"     ),",
+				"     truncate: true,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sinkProcessed"
+			]
+		}
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"name": "Dev-Azure-Factory001",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "819a3bed-e00d-44a4-83ab-d4bda9e96629",
+		"tenantId": "c2444af8-167b-4525-b266-943fb8a8757e"
+	}
+}
